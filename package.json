@@ -1,0 +1,22 @@
+{
+  "name": "cryptocore",
+  "version": "1.0.0",
+  "description": "Creates a detailed overview with all subscribed cryptocurrencies",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cryptocore",
+    "cryptoapi",
+    "crypto",
+    "display"
+  ],
+  "author": "AsP3X",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "cheerio": "^1.0.0-rc.10",
+    "dotenv": "^10.0.0"
+  }
+}
