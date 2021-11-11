@@ -24,12 +24,12 @@ async function getWebsiteData(currency) {
 
 /**
  * // processing the price data for the given currency and return it as a string
+ * @param {Object} webData
  * @param {String} currency 
  * @returns {String}
  */
-async function getPriceData(currency) {
+async function getPriceData(webData, currency) {
     try {
-        const webData = await getWebsiteData(currency);
         const cheer = cheerio.load(webData);
         const elemSelector = selectors[currency].price;
         const price = cheer(elemSelector).html();
@@ -43,10 +43,11 @@ async function getPriceData(currency) {
 
 /**
  * // processing the price difference for the given currency and return it as a number
+ * @param {Object} webData
  * @param {String} currency 
  * @returns {Number}
  */
-async function getPriceDifference(currency) {
+async function getPriceDifference(webData, currency) {
     function parseRawData(rawData) {
         const splitFields = rawData.split('>');
         const dataField = splitFields[2].split('<');
@@ -54,7 +55,6 @@ async function getPriceDifference(currency) {
     }
 
     try {
-        const webData = await getWebsiteData(currency);
         const cheer = cheerio.load(webData);
         elemSelector = selectors[currency].difference_24h;
         
@@ -68,10 +68,11 @@ async function getPriceDifference(currency) {
 }
 /**
  * // processing the high low data of 24h for the given currency and return it as a string
- * @param {String} currency 
+ * @param {Object} webData 
+ * @param {String} currency
  * @returns {Array}
  */
-async function getHighLow24h(currency) {
+async function getHighLow24h(webData, currency) {
     function parseRawData(rawData) {
         const splitFields = rawData.split('>');
         const dataField = splitFields[4].split('<');
@@ -79,7 +80,6 @@ async function getHighLow24h(currency) {
     }
 
     try {
-        const webData = await getWebsiteData(currency);
         const cheer = cheerio.load(webData);
         const elemSelector = selectors[currency].highlow_24h;
 
@@ -100,12 +100,12 @@ async function getHighLow24h(currency) {
 
 /**
  * // processing the Circulating supply data for the given currency and return it as a string
- * @param {String} currency 
+ * @param {Object} webData 
+ * @param {String} currency
  * @returns {Array}
  */
-async function getCirculatingSupply(currency) {
+async function getCirculatingSupply(webData, currency) {
     try {
-        const webData = await getWebsiteData(currency);
         const cheer = cheerio.load(webData);
         const elemSelector = selectors[currency].circulatingSupply;
 
@@ -125,12 +125,12 @@ async function getCirculatingSupply(currency) {
 
 /**
  * // process the max supply data for the given currency and return it as a string
- * @param {String} currency 
+ * @param {Object} webData 
+ * @param {String} currency
  * @returns {Number}
  */
-async function getMaxSupply(currency) {
+async function getMaxSupply(webData, currency) {
     try {
-        const webData = await getWebsiteData(currency);
         const cheer = cheerio.load(webData);
         const elemSelector = selectors[currency].maxSupply;
 
@@ -144,10 +144,11 @@ async function getMaxSupply(currency) {
 
 /**
  * // processing the volume data of 24h for the given currency and return it as a string
+ * @param {Object} webData
  * @param {String} currency 
  * @returns {Array}
  */
-async function getVolume24h(currency) {
+async function getVolume24h(webData, currency) {
     function parseRawData(rawData) {
         let dataField = [];
         const splitFields = rawData.split('>');
@@ -156,7 +157,6 @@ async function getVolume24h(currency) {
     }
 
     try {
-        const webData = await getWebsiteData(currency);
         const cheer = cheerio.load(webData);
         const elemSelector = selectors[currency].volume_24h;
 
@@ -175,15 +175,18 @@ async function getVolume24h(currency) {
 
 /**
  * // Assemble the data into an Array
+ * @param {String} currency
  * @returns {Array}
  */
 async function assembleData(currency) {
-    const price = await getPriceData(currency);
-    const difference = await getPriceDifference(currency);
-    const highlow = await getHighLow24h(currency);
-    const circulatingSupply = await getCirculatingSupply(currency);
-    const maxSupply = await getMaxSupply(currency);
-    const volume = await getVolume24h(currency);
+    const webData = await getWebsiteData(currency);
+
+    const price = await getPriceData(webData, currency);
+    const difference = await getPriceDifference(webData, currency);
+    const highlow = await getHighLow24h(webData, currency);
+    const circulatingSupply = await getCirculatingSupply(webData, currency);
+    const maxSupply = await getMaxSupply(webData, currency);
+    const volume = await getVolume24h(webData, currency);
 
     const data = {
         price: price,
