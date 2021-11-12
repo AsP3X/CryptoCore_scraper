@@ -19,6 +19,8 @@ async function getWebsiteData(currency) {
         url: siteUrl,
     });
 
+    console.log(`Fetching data for ${currency}`);
+
     return data;
 }
 
@@ -34,7 +36,7 @@ async function getPriceData(webData, currency) {
         const elemSelector = selectors[currency].price;
         const price = cheer(elemSelector).html();
 
-        // console.log(price);
+        console.log(`Extracting the price for ${currency}`);
         return price;
     } catch (err) {
         console.log(err);
@@ -60,6 +62,8 @@ async function getPriceDifference(webData, currency) {
         
         const differenceRaw = cheer(elemSelector).html();
         const difference = parseRawData(differenceRaw);
+
+        console.log(`Extracting the price difference for ${currency}`);
         
         return difference;
     } catch (err) {
@@ -89,6 +93,8 @@ async function getHighLow24h(webData, currency) {
         const low = parseRawData(lowRaw);
         const high = parseRawData(highRaw);
 
+        console.log(`Extracting the high low for ${currency}`);
+
         return {
             low: low,
             high: high
@@ -114,6 +120,8 @@ async function getCirculatingSupply(webData, currency) {
         const supply = cheer(elemSelector).children('.statsValue').html();
         const supplyPercent = cheer(elemSelector).children('.supplyBlockPercentage').html();
 
+        console.log(`Extracting the circulating supply for ${currency}`);
+
         return {
             circulatingSupply: supply,
             circulatingSupplyPercent: supplyPercent
@@ -135,6 +143,8 @@ async function getMaxSupply(webData, currency) {
         const elemSelector = selectors[currency].maxSupply;
 
         const supply = cheer(elemSelector).html();
+
+        console.log(`Extracting the max supply for ${currency}`);
 
         return supply;
     } catch (err) {
@@ -163,6 +173,8 @@ async function getVolume24h(webData, currency) {
         const volumeRaw = cheer(elemSelector).html();
         const volume = parseRawData(volumeRaw)[0];
         const volumePercent = parseRawData(volumeRaw)[1];
+
+        console.log(`Extracting the 24h volume for ${currency}`);
 
         return {
             volume: volume,
@@ -197,7 +209,44 @@ async function assembleData(currency) {
         volume: volume
     }
 
+    console.log(`Assembling the data for ${currency}`);
+
     return data;
+}
+
+// create a function that returns the current date including the time with the format YYYYMMDDHHMMSS_bitcoin
+function generateDateKey() {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+
+    const dateString = `${year}${month}${day}${hours}${minutes}${seconds}`;
+
+    return dateString;
+}
+
+async function main(currency) {
+    const data = await assembleData(currency);
+    const dateKey = generateDateKey();
+
+    if (!fs.existsSync(`./data/${currency}`)) {
+        fs.mkdirSync(`./data/${currency}`, { recursive: true });
+    }
+
+    const filename = `${dateKey}_${currency}.json`;
+    const filepath = `./data/${currency}/${filename}`;
+
+    fs.writeFile(filepath, JSON.stringify(data), (err) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(`The file ${filename} has been saved!`);
+        }
+    });
 }
 
 async function testValues() {
@@ -211,4 +260,8 @@ async function testValues() {
     console.log(await assembleData("bitcoin"));
 }
 
-testValues();
+// testValues();
+var minutes = 5, the_interval = minutes * 60 * 1000;
+setInterval(function(){ 
+    main("bitcoin");
+}, the_interval);
