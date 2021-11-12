@@ -13,18 +13,14 @@ function createInterval(time) {
     return interval;
 }
 
-// var minutes = 5, the_interval = minutes * 60 * 1000;
-const dataCollector = setInterval(function() {
-    coinMarketCap.scrape("bitcoin");
-}, createInterval(5));
-
 let counter = 0;
-const minuteTimer = setInterval(() => {
+const runtimeLoop = setInterval(() => {
     counter++;
     console.log(`IDLE: waiting for execution Minute ${counter} out of 5`);
 
     if (counter === 4) {
         counter = 0;
+        coinMarketCap.scrape("bitcoin");
     }
         
 }, createInterval(1));
