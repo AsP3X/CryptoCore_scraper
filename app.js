@@ -18,9 +18,10 @@ const runtimeLoop = setInterval(() => {
     counter++;
     console.log(`IDLE: waiting for execution Minute ${counter} out of 5`);
 
-    if (counter === 4) {
+    if (counter === 5) {
         counter = 0;
         coinMarketCap.scrape("bitcoin");
+        coinMarketCap.scrape("ethereum");
     }
         
 }, createInterval(1));
