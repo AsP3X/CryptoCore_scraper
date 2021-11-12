@@ -1,0 +1,1 @@
+[![CodeQL](https://github.com/AsP3X/CryptoCore/actions/workflows/codeql-analysis.yml/badge.svg?branch=master)](https://github.com/AsP3X/CryptoCore/actions/workflows/codeql-analysis.yml)

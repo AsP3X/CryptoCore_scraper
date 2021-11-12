@@ -2,8 +2,8 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const fs = require('fs');
 
-const selectors = JSON.parse(fs.readFileSync('./assets/appdata/selectors.json', 'utf8'));
-const currency = JSON.parse(fs.readFileSync('./assets/appdata/currencies.json', 'utf8'));
+const selectors = JSON.parse(fs.readFileSync('./bin/appdata/selectors.json', 'utf8'));
+const currency = JSON.parse(fs.readFileSync('./bin/appdata/currencies.json', 'utf8'));
 
 
 function generateDateKey(date) {
@@ -245,7 +245,12 @@ async function assembleData(currency) {
     return data;
 }
 
-async function main(currency) {
+/**
+ * Write the data from the requested currency to a file
+ * @param {String} currency 
+ */
+async function scrape(currency) {
+    console.log(__dirname);
     const date = generateDate();
     const data = await assembleData(currency);
     const dateKey = generateDateKey(date);
@@ -267,15 +272,11 @@ async function main(currency) {
     });
 }
 
-async function testValues() {
-    console.log(await assembleData("bitcoin"));
-}
+module.exports.scrape = scrape;
+
 
 // // testValues();
 // var minutes = 5, the_interval = minutes * 60 * 1000;
 // setInterval(function(){ 
 //     main("bitcoin");
 // }, the_interval);
-
-main("bitcoin");
-main("ethereum");
