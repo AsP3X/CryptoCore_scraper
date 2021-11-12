@@ -118,7 +118,11 @@ async function getCirculatingSupply(webData, currency) {
         // const supply = cheer(elemSelector)[0].html();
         // const supplyPercent = cheer(elemSelector)[1].html();
         const supply = cheer(elemSelector).children('.statsValue').html();
-        const supplyPercent = cheer(elemSelector).children('.supplyBlockPercentage').html();
+        let supplyPercent = cheer(elemSelector).children('.supplyBlockPercentage').html();
+
+        if (supplyPercent === "") {
+            supplyPercent = 'unknown';
+        }
 
         console.log(`Extracting the circulating supply for ${currency}`);
 
@@ -141,8 +145,11 @@ async function getMaxSupply(webData, currency) {
     try {
         const cheer = cheerio.load(webData);
         const elemSelector = selectors[currency].maxSupply;
+        let supply = cheer(elemSelector).html();
 
-        const supply = cheer(elemSelector).html();
+        if (supply === '--') {
+            supply = 'unknown';
+        }
 
         console.log(`Extracting the max supply for ${currency}`);
 
@@ -216,13 +223,13 @@ async function assembleData(currency) {
 
 // create a function that returns the current date including the time with the format YYYYMMDDHHMMSS_bitcoin
 function generateDateKey() {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const seconds = date.getSeconds();
+    let date = new Date(); 
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1; if (month < 10) { month = '0' + month; }
+    let day = date.getDate(); if (day < 10) { day = '0' + day; }
+    let hours = date.getHours(); if (hours < 10) { hours = '0' + hours; }
+    let minutes = date.getMinutes(); if (minutes < 10) { minutes = '0' + minutes; }
+    let seconds = date.getSeconds(); if (seconds < 10) { seconds = '0' + seconds; }
 
     const dateString = `${year}${month}${day}${hours}${minutes}${seconds}`;
 
@@ -260,8 +267,11 @@ async function testValues() {
     console.log(await assembleData("bitcoin"));
 }
 
-// testValues();
-var minutes = 5, the_interval = minutes * 60 * 1000;
-setInterval(function(){ 
-    main("bitcoin");
-}, the_interval);
+// // testValues();
+// var minutes = 5, the_interval = minutes * 60 * 1000;
+// setInterval(function(){ 
+//     main("bitcoin");
+// }, the_interval);
+
+main("bitcoin");
+main("ethereum");
