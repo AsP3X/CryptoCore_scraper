@@ -22,6 +22,8 @@ const runtimeLoop = setInterval(() => {
         counter = 0;
         coinMarketCap.scrape("bitcoin");
         coinMarketCap.scrape("ethereum");
+        coinMarketCap.scrape("binance-coin");
+        coinMarketCap.scrape("tether");
     }
         
 }, createInterval(1));
