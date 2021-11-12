@@ -7,7 +7,7 @@ const currency = JSON.parse(fs.readFileSync('./bin/appdata/currencies.json', 'ut
 
 
 function generateDateKey(date) {
-    const dateString = `${date.year}${date.month}${date.day}${date.hours}${date.minutes}${date.seconds}`;
+    const dateString = `${date.hours}${date.minutes}${date.seconds}`;
     return dateString;
 }
 
