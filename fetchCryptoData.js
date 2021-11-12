@@ -6,6 +6,30 @@ const selectors = JSON.parse(fs.readFileSync('./assets/appdata/selectors.json', 
 const currency = JSON.parse(fs.readFileSync('./assets/appdata/currencies.json', 'utf8'));
 
 
+function generateDateKey(date) {
+    const dateString = `${date.year}${date.month}${date.day}${date.hours}${date.minutes}${date.seconds}`;
+    return dateString;
+}
+
+function generateDate() {
+    let date = new Date(); 
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1; if (month < 10) { month = '0' + month; }
+    let day = date.getDate(); if (day < 10) { day = '0' + day; }
+    let hours = date.getHours(); if (hours < 10) { hours = '0' + hours; }
+    let minutes = date.getMinutes(); if (minutes < 10) { minutes = '0' + minutes; }
+    let seconds = date.getSeconds(); if (seconds < 10) { seconds = '0' + seconds; }
+
+    return {
+        year: year,
+        month: month,
+        day: day,
+        hours: hours,
+        minutes: minutes,
+        seconds: seconds
+    }
+}
+
 /**
  * Get price data from coinmarketcap.com and return it as a string
  * @param {String} currency 
@@ -221,31 +245,18 @@ async function assembleData(currency) {
     return data;
 }
 
-// create a function that returns the current date including the time with the format YYYYMMDDHHMMSS_bitcoin
-function generateDateKey() {
-    let date = new Date(); 
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1; if (month < 10) { month = '0' + month; }
-    let day = date.getDate(); if (day < 10) { day = '0' + day; }
-    let hours = date.getHours(); if (hours < 10) { hours = '0' + hours; }
-    let minutes = date.getMinutes(); if (minutes < 10) { minutes = '0' + minutes; }
-    let seconds = date.getSeconds(); if (seconds < 10) { seconds = '0' + seconds; }
-
-    const dateString = `${year}${month}${day}${hours}${minutes}${seconds}`;
-
-    return dateString;
-}
-
 async function main(currency) {
+    const date = generateDate();
     const data = await assembleData(currency);
-    const dateKey = generateDateKey();
+    const dateKey = generateDateKey(date);
+
+    const path = `./data/${currency}/${date.year}/${date.month}/${date.day}`;
+    const filename = `${dateKey}_${currency}.json`;
+    const filepath = `${path}/${filename}`;
 
     if (!fs.existsSync(`./data/${currency}`)) {
-        fs.mkdirSync(`./data/${currency}`, { recursive: true });
+        fs.mkdirSync(path, { recursive: true });
     }
-
-    const filename = `${dateKey}_${currency}.json`;
-    const filepath = `./data/${currency}/${filename}`;
 
     fs.writeFile(filepath, JSON.stringify(data), (err) => {
         if (err) {
@@ -257,13 +268,6 @@ async function main(currency) {
 }
 
 async function testValues() {
-    // console.log(await getPriceData('bitcoin'));
-    // console.log(await getPriceDifference('bitcoin'));
-    // console.log(await getHighLow24h('bitcoin'));
-    // console.log(await getCirculatingSupply('bitcoin'));
-    // console.log(await getMaxSupply('bitcoin'));
-    // console.log(await getVolume24h('bitcoin'));
-
     console.log(await assembleData("bitcoin"));
 }
 
