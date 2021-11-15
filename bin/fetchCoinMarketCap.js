@@ -8,31 +8,6 @@ const cdate = require('./modules/cDate');
 const selectors = JSON.parse(fs.readFileSync('./bin/appdata/selectors.json', 'utf8'));
 const currency = JSON.parse(fs.readFileSync('./bin/appdata/currencies.json', 'utf8'));
 
-
-function generateDateKey(date) {
-    const dateString = `${date.hours}${date.minutes}${date.seconds}`;
-    return dateString;
-}
-
-function generateDate() {
-    let date = new Date(); 
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1; if (month < 10) { month = '0' + month; }
-    let day = date.getDate(); if (day < 10) { day = '0' + day; }
-    let hours = date.getHours(); if (hours < 10) { hours = '0' + hours; }
-    let minutes = date.getMinutes(); if (minutes < 10) { minutes = '0' + minutes; }
-    let seconds = date.getSeconds(); if (seconds < 10) { seconds = '0' + seconds; }
-
-    return {
-        year: year,
-        month: month,
-        day: day,
-        hours: hours,
-        minutes: minutes,
-        seconds: seconds
-    }
-}
-
 /**
  * Get price data from coinmarketcap.com and return it as a string
  * @param {String} currency 
@@ -262,7 +237,7 @@ async function scrape(currency) {
     const filename = `${dateKey}_${currency}.json`;
     const filepath = `${path}/${filename}`;
 
-    if (!fs.existsSync(`./data/${currency}`)) {
+    if (!fs.existsSync(path)) {
         fs.mkdirSync(path, { recursive: true });
     }
 
