@@ -1,9 +1,8 @@
 {
-    "bitcoin": {
-        "price_selector_path": "selectors.bitcoin.price",
-        "price_difference_24h": "selectors.bitcoin.difference_24h"
-    },
-    "ethereum": {
-        "price_selector_path": "selectors.ethereum.price"
-    }
+    "currencies": [
+        "bitcoin",
+        "ethereum",
+        "binance-coin",
+        "tether"
+    ]
 }
