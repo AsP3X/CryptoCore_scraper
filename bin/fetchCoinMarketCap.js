@@ -2,33 +2,11 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const fs = require('fs');
 
-const selectors = JSON.parse(fs.readFileSync('./assets/appdata/selectors.json', 'utf8'));
-const currency = JSON.parse(fs.readFileSync('./assets/appdata/currencies.json', 'utf8'));
+// Importing modules
+const cdate = require('./modules/cDate');
 
-
-function generateDateKey(date) {
-    const dateString = `${date.year}${date.month}${date.day}${date.hours}${date.minutes}${date.seconds}`;
-    return dateString;
-}
-
-function generateDate() {
-    let date = new Date(); 
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1; if (month < 10) { month = '0' + month; }
-    let day = date.getDate(); if (day < 10) { day = '0' + day; }
-    let hours = date.getHours(); if (hours < 10) { hours = '0' + hours; }
-    let minutes = date.getMinutes(); if (minutes < 10) { minutes = '0' + minutes; }
-    let seconds = date.getSeconds(); if (seconds < 10) { seconds = '0' + seconds; }
-
-    return {
-        year: year,
-        month: month,
-        day: day,
-        hours: hours,
-        minutes: minutes,
-        seconds: seconds
-    }
-}
+const selectors = JSON.parse(fs.readFileSync('./bin/appdata/selectors.json', 'utf8'));
+const currency = JSON.parse(fs.readFileSync('./bin/appdata/currencies.json', 'utf8'));
 
 /**
  * Get price data from coinmarketcap.com and return it as a string
@@ -245,16 +223,21 @@ async function assembleData(currency) {
     return data;
 }
 
-async function main(currency) {
-    const date = generateDate();
+/**
+ * Write the data from the requested currency to a file
+ * @param {String} currency 
+ */
+async function scrape(currency) {
+    console.log(__dirname);
+    const date = cdate.getDate();
     const data = await assembleData(currency);
-    const dateKey = generateDateKey(date);
+    const dateKey = cdate.generateDateKey("time", date);
 
     const path = `./data/${currency}/${date.year}/${date.month}/${date.day}`;
     const filename = `${dateKey}_${currency}.json`;
     const filepath = `${path}/${filename}`;
 
-    if (!fs.existsSync(`./data/${currency}`)) {
+    if (!fs.existsSync(path)) {
         fs.mkdirSync(path, { recursive: true });
     }
 
@@ -267,15 +250,11 @@ async function main(currency) {
     });
 }
 
-async function testValues() {
-    console.log(await assembleData("bitcoin"));
-}
+module.exports.scrape = scrape;
+
 
 // // testValues();
 // var minutes = 5, the_interval = minutes * 60 * 1000;
 // setInterval(function(){ 
 //     main("bitcoin");
 // }, the_interval);
-
-main("bitcoin");
-main("ethereum");

@@ -1,0 +1,8 @@
+{
+    "currencies": [
+        "bitcoin",
+        "ethereum",
+        "binance-coin",
+        "tether"
+    ]
+}
