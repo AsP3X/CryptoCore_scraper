@@ -30,11 +30,13 @@ cdate.getDate = () => {
  * @returns {String}
  */
 cdate.generateDateKey = (type, date) => {
-    const dateString = `${date.year}${date.month}${date.day}${date.hours}${date.minutes}${date.seconds}`;
     if (type === "time") {
         const dateString = `${date.hours}${date.minutes}${date.seconds}`
+        return dateString;
+    } else {
+        const dateString = `${date.year}${date.month}${date.day}${date.hours}${date.minutes}${date.seconds}`;
+        return dateString;
     }
-    return dateString;
 }
 
 module.exports = cdate;
