@@ -212,6 +212,8 @@ async function assembleData(currency) {
     const volume = await getVolume24h(webData, currency);
 
     const data = {
+        currency: currency,
+        timestamp: cdate.generateDateKey("all", cdate.getDate()),
         price: price,
         difference: `${difference}%`,
         highlow: highlow,
