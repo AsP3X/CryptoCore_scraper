@@ -81,7 +81,7 @@ async function getPriceDifference(webData, currency) {
 async function getHighLow24h(webData, currency) {
     function parseRawData(rawData) {
         const splitFields = rawData.split('>');
-        const dataField = splitFields[4].split('<');
+        const dataField = splitFields[5].split('<');
         return dataField[0];
     }
 
@@ -101,6 +101,8 @@ async function getHighLow24h(webData, currency) {
             low: low,
             high: high
         }
+
+        return lowRaw;
     } catch (err) {
         console.log(err);
     }
@@ -187,7 +189,7 @@ async function getVolume24h(webData, currency) {
 
         return {
             volume: volume,
-            volumePercent: volumePercent
+            volumePercent: `${volumePercent}%`
         }
     } catch (err) {
         console.log(err);
@@ -211,7 +213,7 @@ async function assembleData(currency) {
 
     const data = {
         price: price,
-        difference: difference,
+        difference: `${difference}%`,
         highlow: highlow,
         circulatingSupply: circulatingSupply,
         maxSupply: maxSupply,
@@ -258,3 +260,11 @@ module.exports.scrape = scrape;
 // setInterval(function(){ 
 //     main("bitcoin");
 // }, the_interval);
+
+// async function main() {
+//     const webData = await getWebsiteData("bitcoin");
+//     const highlow = await getHighLow24h(webData, "bitcoin");
+//     // console.log(highlow);
+// }
+
+// main();
