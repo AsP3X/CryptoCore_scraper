@@ -3,7 +3,7 @@ const cheerio = require('cheerio');
 const fs = require('fs');
 
 // Importing modules
-const cdate = require('./modules/cDate');
+const cdate = require('./modules/utils/cDate');
 
 const selectors = JSON.parse(fs.readFileSync('./bin/appdata/selectors.json', 'utf8'));
 const currency = JSON.parse(fs.readFileSync('./bin/appdata/currencies.json', 'utf8'));
