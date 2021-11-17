@@ -1,3 +1,9 @@
+// ####################################################################
+// ## ZOUPA - (ZombyMediaIC open source usage protection agreement)  ##
+// ## License as of: 17.11.2021 15:27 | #202111171527                ##
+// ## Niklas Vorberg (AsP3X)                                         ##
+// ####################################################################
+
 const mongoose = require('mongoose');
 const fs = require('fs');
 const dotenv = require('dotenv');
