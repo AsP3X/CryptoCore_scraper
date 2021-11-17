@@ -213,7 +213,7 @@ async function assembleData(currency) {
 
     const data = {
         currency: currency,
-        timestamp: cdate.generateDateKey("all", cdate.getDate()),
+        timestamp: cdate.generateDateKey("dbTimeId", cdate.getDate()),
         price: price,
         difference: `${difference}%`,
         highlow: highlow,

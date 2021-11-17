@@ -33,6 +33,9 @@ cdate.generateDateKey = (type, date) => {
     if (type === "time") {
         const dateString = `${date.hours}${date.minutes}${date.seconds}`
         return dateString;
+    } else if (type === "dbTimeId") {
+        const dateString = `${date.year}${date.month}${date.day}${date.hours}${date.minutes}`;
+        return dateString;
     } else {
         const dateString = `${date.year}${date.month}${date.day}${date.hours}${date.minutes}${date.seconds}`;
         return dateString;
