@@ -4,7 +4,25 @@
 // ## Niklas Vorberg (AsP3X)                                         ##
 // ####################################################################
 
-const cdate = require('./modules/cDate');
-const date = cdate.getDate();
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+dotenv.config();
 
-// console.log(`Today is the: ${date.day}.${date.month}.${date.year}`);
+// Importing modules
+const mongodb = require('./modules/database/mongodb');
+
+async function main() {
+    // Connecting to the database
+    await mongodb.establishConnection();
+
+    // Updating data in the database
+    await mongodb.updateDBData(
+        { id: '202111181134' }, 
+        {
+            price: '$59,105.36',
+            difference: '0.08%'
+        }
+    );
+}
+
+main();

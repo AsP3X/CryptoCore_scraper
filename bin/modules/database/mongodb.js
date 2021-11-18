@@ -39,6 +39,11 @@ async function establishConnection() {
     });
 }
 
+/**
+ * 
+ * @param {String} identifyer 
+ * @returns 
+ */
 async function getDataFromDB(identifyer) {
     return Crypto.find({ identifyer }).catch(err => {
         console.log(err);
@@ -71,8 +76,23 @@ async function writeToDB(data) {
     });
 }
 
+/**
+ * 
+ * @param {Object} selector 
+ * @param {Object} newData 
+ */
+async function updateDBData(selector, newData) {
+    Crypto.findOneAndUpdate(selector, newData, { new: true },(err, data) => {
+        if (err) {
+            console.error(err);
+        } else {
+            console.log(`DATA: ${data}`);
+        }
+    });
+}
+
 // async function main() {
-//     const fileData = await getDataFromFile("C:\\Users\\AsP3X\\Desktop\\Development\\CryptoCore\\data\\bitcoin\\2021\\11\\17\\143112_bitcoin.json");
+//     const fileData = await getDataFromFile("C:\\Users\\AsP3X\\Desktop\\Development\\CryptoCore\\data\\bitcoin\\2021\\11\\18\\113300_bitcoin.json");
 
 //     await establishConnection();
 //     writeToDB(fileData);
@@ -84,6 +104,8 @@ async function writeToDB(data) {
 
 mongodb.establishConnection = establishConnection;
 mongodb.getDataFromFile = getDataFromFile;
+mongodb.getDataFromDB = getDataFromDB;
 mongodb.writeToDB = writeToDB;
+mongodb.updateDBData = updateDBData;
 
 module.exports = mongodb;
