@@ -21,17 +21,31 @@ function createTimestamp() {
     return timestamp;
 }
 
+/**
+ * // Generating the timing for an interval function
+ * @param {Number} time 
+ * @returns {Number} interval in minutes
+ */
 function createInterval(time) {
     let minutes = time, interval = minutes * 60 * 1000;
     return interval;
 }
 
+/**
+ * // Executing all program functionality for testing purposes
+ * @param {*} coinconfig 
+ */
 function emulateRuntime(coinconfig) {
     for (let i = 0; i < coinconfig.currencies.length; i++) {
         coinMarketCap.scrape(coinconfig.currencies[i]);
     }
 }
 
+/**
+ * // Executing all program functionality in an emulated
+ * // live mode (no cron job)
+ * @param {Number} time 
+ */
 function emulateLive(time){
     if (!time) {
         console.error('Please provide a valid time in minutes');
@@ -55,6 +69,10 @@ function emulateLive(time){
     console.log(`Emulating live: with a "${time} minute" interval`);
 }
 
+/**
+ * // Executing in production mode (cron job) or via realtime execution
+ * @param {JSON} coinconfig 
+ */
 function executeLive(coinconfig) {
     for (let i = 0; i < coinconfig.currencies.length; i++) {
         coinMarketCap.scrape(coinconfig.currencies[i]);
