@@ -48,4 +48,23 @@ cdate.generateDateKey = (type, date) => {
     }
 }
 
+cdate.getFormatetDate = () => {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth();
+    const currentDay = currentDate.getDate();
+    const currentHour = currentDate.getHours();
+    const currentMinute = currentDate.getMinutes();
+    const currentSecond = currentDate.getSeconds();
+
+    return {
+        year: currentYear,
+        month: currentMonth,
+        day: currentDay,
+        hour: currentHour,
+        minute: currentMinute,
+        second: currentSecond
+    }
+}
+
 module.exports = cdate;
