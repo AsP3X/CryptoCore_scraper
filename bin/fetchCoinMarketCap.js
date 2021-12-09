@@ -8,6 +8,9 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const fs = require('fs');
 
+// loading config.json file and parse it
+const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
+
 // Importing modules
 const cdate = require('./modules/utils/cDate');
 
@@ -243,7 +246,13 @@ async function scrape(currency) {
     const data = await assembleData(currency);
     const dateKey = cdate.generateDateKey("time", date);
 
-    const path = `./data/${currency}/${date.year}/${date.month}/${date.day}`;
+    let rootpath = "./data";
+
+    if (config.datapath) {
+        rootpath = config.datapath;
+    }
+
+    const path = `${rootpath}/${currency}/${date.year}/${date.month}/${date.day}`;
     const filename = `${dateKey}_${currency}.json`;
     const filepath = `${path}/${filename}`;
 
@@ -261,6 +270,7 @@ async function scrape(currency) {
 }
 
 module.exports.scrape = scrape;
+module.exports.assembleData = assembleData;
 
 
 // // testValues();
