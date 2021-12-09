@@ -9,7 +9,7 @@ dataTree.getDirTree = (path) => {
 }
 
 dataTree.saveDirTree = (filePath, dataPath) => {
-    if (fs.existsSync(filePath)) {
+    if (fs.existsSync(dataPath)) {
         const treeRaw = dataTree.getDirTree(dataPath);
         const tree = JSON.stringify(treeRaw, null, 2);
         fs.writeFileSync(filePath, tree);
