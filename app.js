@@ -108,6 +108,7 @@ if (args[0] === '--help') {
         if (executeTimings.includes(date.minute) && date.second === 0) {
             console.log(`${date.year}-${date.month}-${date.day} ${date.hour}:${date.minute}:${date.second}`);
             executeLive(coinconfig);
+            dataTree.saveDirTree("./dataTree.json", "./data");
         }
     
     }, 1000);
