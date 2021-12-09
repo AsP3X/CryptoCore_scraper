@@ -7,6 +7,7 @@
 const coinMarketCap = require('./bin/fetchCoinMarketCap');
 // const cron = require('node-cron');
 const cdate = require('./bin/modules/utils/cDate');
+const dataTree = require('./bin/modules/utils/dataTree');
 const fs = require('fs');
 
 // receive console parameter if given
@@ -74,10 +75,11 @@ function emulateLive(time){
  * @param {JSON} coinconfig 
  */
 function executeLive(coinconfig) {
+    console.log(`WebScraper is now running [${createTimestamp()}]`);
     for (let i = 0; i < coinconfig.currencies.length; i++) {
         coinMarketCap.scrape(coinconfig.currencies[i]);
     }
-    console.log(`WebScraper is now running [${createTimestamp()}]`);
+    return true;
 }
 
 
@@ -90,6 +92,7 @@ if (args[0] === '--help') {
 } else if (args[0] === '--test-run') {
 
     emulateRuntime(coinconfig);
+    dataTree.saveDirTree("./dataTree.json", "./data");
 
 } else if (args[0] ==='--emulate-live') {
 
@@ -100,11 +103,16 @@ if (args[0] === '--help') {
     console.log(`Executing in realtime`);
     const intervalRun = setInterval(() => {
         const executeTimings = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
+        const executeDirTree = [1, 6, 11, 16, 21, 26, 31, 36, 41, 46, 51, 56];
         const date = cdate.getFormatetDate();
     
         if (executeTimings.includes(date.minute) && date.second === 0) {
             console.log(`${date.year}-${date.month}-${date.day} ${date.hour}:${date.minute}:${date.second}`);
             executeLive(coinconfig);
+        }
+
+        if (executeDirTree.includes(date.minute) && date.second === 0) {
+            dataTree.saveDirTree("./dataTree.json", "./data");
         }
     
     }, 1000);
@@ -119,6 +127,7 @@ if (args[0] === '--help') {
         if (counter === 5) {
             counter = 0;
             executeLive(coinconfig);
+            dataTree.saveDirTree("./dataTree.json", "./data");
         }
     });
 

@@ -44,7 +44,7 @@ async function getWebsiteData(currency) {
 async function getPriceData(webData, currency) {
     try {
         const cheer = cheerio.load(webData);
-        const elemSelector = selectors[currency].price;
+        const elemSelector = selectors.price;
         const price = cheer(elemSelector).html();
 
         console.log(`Extracting the price for ${currency}`);
@@ -69,7 +69,7 @@ async function getPriceDifference(webData, currency) {
 
     try {
         const cheer = cheerio.load(webData);
-        elemSelector = selectors[currency].difference_24h;
+        elemSelector = selectors.difference_24h;
         
         const differenceRaw = cheer(elemSelector).html();
         const difference = parseRawData(differenceRaw);
@@ -96,7 +96,7 @@ async function getHighLow24h(webData, currency) {
 
     try {
         const cheer = cheerio.load(webData);
-        const elemSelector = selectors[currency].highlow_24h;
+        const elemSelector = selectors.highlow_24h;
 
         const lowRaw = cheer(elemSelector).children(".sc-16r8icm-0 .lipEFG").html();
         const highRaw = cheer(elemSelector).children(".sc-16r8icm-0 .SjVBR").html();
@@ -126,7 +126,7 @@ async function getHighLow24h(webData, currency) {
 async function getCirculatingSupply(webData, currency) {
     try {
         const cheer = cheerio.load(webData);
-        const elemSelector = selectors[currency].circulatingSupply;
+        const elemSelector = selectors.circulatingSupply;
 
         // const supply = cheer(elemSelector)[0].html();
         // const supplyPercent = cheer(elemSelector)[1].html();
@@ -157,7 +157,7 @@ async function getCirculatingSupply(webData, currency) {
 async function getMaxSupply(webData, currency) {
     try {
         const cheer = cheerio.load(webData);
-        const elemSelector = selectors[currency].maxSupply;
+        const elemSelector = selectors.maxSupply;
         let supply = cheer(elemSelector).html();
 
         if (supply === '--') {
@@ -188,7 +188,7 @@ async function getVolume24h(webData, currency) {
 
     try {
         const cheer = cheerio.load(webData);
-        const elemSelector = selectors[currency].volume_24h;
+        const elemSelector = selectors.volume_24h;
 
         const volumeRaw = cheer(elemSelector).html();
         const volume = parseRawData(volumeRaw)[0];
@@ -241,7 +241,6 @@ async function assembleData(currency) {
  * @param {String} currency 
  */
 async function scrape(currency) {
-    console.log(__dirname);
     const date = cdate.getDate();
     const data = await assembleData(currency);
     const dateKey = cdate.generateDateKey("time", date);
@@ -271,18 +270,3 @@ async function scrape(currency) {
 
 module.exports.scrape = scrape;
 module.exports.assembleData = assembleData;
-
-
-// // testValues();
-// var minutes = 5, the_interval = minutes * 60 * 1000;
-// setInterval(function(){ 
-//     main("bitcoin");
-// }, the_interval);
-
-// async function main() {
-//     const webData = await getWebsiteData("bitcoin");
-//     const highlow = await getHighLow24h(webData, "bitcoin");
-//     // console.log(highlow);
-// }
-
-// main();

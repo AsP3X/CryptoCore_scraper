@@ -3,6 +3,8 @@
         "bitcoin",
         "ethereum",
         "binance-coin",
-        "tether"
+        "tether",
+        "solana",
+        "cardano"
     ]
 }
