@@ -9,10 +9,12 @@ dataTree.getDirTree = (path) => {
 }
 
 dataTree.saveDirTree = (filePath, dataPath) => {
-    const treeRaw = dataTree.getDirTree(dataPath);
-    const tree = JSON.stringify(treeRaw, null, 2);
-    fs.writeFileSync(filePath, tree);
-    console.log('Saved data tree to ' + filePath);
+    if (fs.existsSync(filePath)) {
+        const treeRaw = dataTree.getDirTree(dataPath);
+        const tree = JSON.stringify(treeRaw, null, 2);
+        fs.writeFileSync(filePath, tree);
+        console.log('Saved data tree to ' + filePath);
+    }
 }
 
 module.exports = dataTree;

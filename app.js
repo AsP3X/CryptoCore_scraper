@@ -103,11 +103,15 @@ if (args[0] === '--help') {
     console.log(`Executing in realtime`);
     const intervalRun = setInterval(() => {
         const executeTimings = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
+        const executeDirTree = [1, 6, 11, 16, 21, 26, 31, 36, 41, 46, 51, 56];
         const date = cdate.getFormatetDate();
     
         if (executeTimings.includes(date.minute) && date.second === 0) {
             console.log(`${date.year}-${date.month}-${date.day} ${date.hour}:${date.minute}:${date.second}`);
             executeLive(coinconfig);
+        }
+
+        if (executeDirTree.includes(date.minute) && date.second === 0) {
             dataTree.saveDirTree("./dataTree.json", "./data");
         }
     
