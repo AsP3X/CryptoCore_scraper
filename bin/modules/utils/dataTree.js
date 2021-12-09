@@ -1,20 +1,18 @@
 const dirTree = require('directory-tree');
 const fs = require('fs');
 
-const dataTree = {};
+const dataTree = {}
 
-function getDirTree(path) {
+dataTree.getDirTree = (path) => {
     const tree = dirTree(path);
     return tree;
 }
 
-function saveDirTree(filePath, dataPath) {
-    const tree = getDirTree(dataPath);
-    const json = JSON.stringify(tree, null, 2);
-    fs.writeFileSync(filePath, json);
+dataTree.saveDirTree = (filePath, dataPath) => {
+    const treeRaw = dataTree.getDirTree(dataPath);
+    const tree = JSON.stringify(treeRaw, null, 2);
+    fs.writeFileSync(filePath, tree);
+    console.log('Saved data tree to ' + filePath);
 }
-
-dataTree.getDirTree = getDirTree;
-dataTree.saveDirTree = saveDirTree;
 
 module.exports = dataTree;

@@ -241,7 +241,6 @@ async function assembleData(currency) {
  * @param {String} currency 
  */
 async function scrape(currency) {
-    console.log(__dirname);
     const date = cdate.getDate();
     const data = await assembleData(currency);
     const dateKey = cdate.generateDateKey("time", date);

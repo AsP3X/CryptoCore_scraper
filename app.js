@@ -92,6 +92,7 @@ if (args[0] === '--help') {
 } else if (args[0] === '--test-run') {
 
     emulateRuntime(coinconfig);
+    dataTree.saveDirTree("./dataTree.json", "./data");
 
 } else if (args[0] ==='--emulate-live') {
 
@@ -120,10 +121,8 @@ if (args[0] === '--help') {
     
         if (counter === 5) {
             counter = 0;
-            while (executeLive(coinconfig)) {
-                dataTree.saveDirTree("./dataTree.json", "./data");
-                break;
-            }   
+            executeLive(coinconfig);
+            dataTree.saveDirTree("./dataTree.json", "./data");
         }
     });
 
