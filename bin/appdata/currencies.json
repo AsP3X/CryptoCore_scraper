@@ -4,6 +4,7 @@
         "ethereum",
         "binance-coin",
         "tether",
-        "solana"
+        "solana",
+        "cardano"
     ]
 }
