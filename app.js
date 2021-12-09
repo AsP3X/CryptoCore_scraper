@@ -7,6 +7,7 @@
 const coinMarketCap = require('./bin/fetchCoinMarketCap');
 // const cron = require('node-cron');
 const cdate = require('./bin/modules/utils/cDate');
+const dataTree = require('./bin/modules/utils/dataTree');
 const fs = require('fs');
 
 // receive console parameter if given
@@ -74,10 +75,11 @@ function emulateLive(time){
  * @param {JSON} coinconfig 
  */
 function executeLive(coinconfig) {
+    console.log(`WebScraper is now running [${createTimestamp()}]`);
     for (let i = 0; i < coinconfig.currencies.length; i++) {
         coinMarketCap.scrape(coinconfig.currencies[i]);
     }
-    console.log(`WebScraper is now running [${createTimestamp()}]`);
+    return true;
 }
 
 
@@ -118,7 +120,10 @@ if (args[0] === '--help') {
     
         if (counter === 5) {
             counter = 0;
-            executeLive(coinconfig);
+            while (executeLive(coinconfig)) {
+                dataTree.saveDirTree("./dataTree.json", "./data");
+                break;
+            }   
         }
     });
 
