@@ -36,8 +36,8 @@ cdate.getDate = () => {
  * @returns {String}
  */
 cdate.generateDateKey = (type, date) => {
-    if (type === "time") {
-        const dateString = `${date.hours}${date.minutes}${date.seconds}`
+    if (type === "filename") {
+        const dateString = `${date.hours}${date.minutes}00`;
         return dateString;
     } else if (type === "dbTimeId") {
         const dateString = `${date.year}${date.month}${date.day}${date.hours}${date.minutes}`;
