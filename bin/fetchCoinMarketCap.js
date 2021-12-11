@@ -243,7 +243,7 @@ async function assembleData(currency) {
 async function scrape(currency) {
     const date = cdate.getDate();
     const data = await assembleData(currency);
-    const dateKey = cdate.generateDateKey("time", date);
+    const dateKey = cdate.generateDateKey("filename", date);
 
     let rootpath = "./data";
 
