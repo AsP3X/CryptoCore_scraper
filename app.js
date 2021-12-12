@@ -74,10 +74,13 @@ function emulateLive(time){
  * // Executing in production mode (cron job) or via realtime execution
  * @param {JSON} coinconfig 
  */
-function executeLive(coinconfig) {
+function executeLive(coinconfig, callback) {
     console.log(`WebScraper is now running [${createTimestamp()}]`);
     for (let i = 0; i < coinconfig.currencies.length; i++) {
         coinMarketCap.scrape(coinconfig.currencies[i]);
+    }
+    if (callback) {
+        callback();
     }
     return true;
 }
@@ -93,6 +96,7 @@ if (args[0] === '--help') {
 
     emulateRuntime(coinconfig);
     dataTree.saveDirTree("./dataTree.json", "./data");
+    dataTree.compileData("./dataTree.json");
 
 } else if (args[0] ==='--emulate-live') {
 
@@ -108,13 +112,11 @@ if (args[0] === '--help') {
     
         if (executeTimings.includes(date.minute) && date.second === 0) {
             console.log(`${date.year}-${date.month}-${date.day} ${date.hour}:${date.minute}:${date.second}`);
-            executeLive(coinconfig);
-        }
-
-        if (executeDirTree.includes(date.minute) && date.second === 0) {
-            dataTree.saveDirTree("./dataTree.json", "./data");
-        }
-    
+            executeLive(coinconfig, () => {
+                dataTree.saveDirTree("./dataTree.json", "./data");
+                dataTree.compileData("./dataTree.json");
+            });
+        }    
     }, 1000);
 
 } else {
@@ -128,6 +130,7 @@ if (args[0] === '--help') {
             counter = 0;
             executeLive(coinconfig);
             dataTree.saveDirTree("./dataTree.json", "./data");
+            dataTree.compileData("./dataTree.json");
         }
     });
 
