@@ -1,18 +1,11 @@
-// ####################################################################
-// ## ZOUPA - (ZombyMediaIC open source usage protection agreement)  ##
-// ## License as of: 17.11.2021 16:00 | #202111171600                ##
-// ## Niklas Vorberg (AsP3X)                                         ##
-// ####################################################################
-
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const cryptoSchema = new Schema({
-    id: {
+const cryptoSchema = new mongoose.Schema({
+    name: {
         type: String,
         required: true
     },
-    name: {
+    timestamp: {
         type: String,
         required: true
     },
@@ -24,20 +17,12 @@ const cryptoSchema = new Schema({
         type: String,
         required: true
     },
-    low: {
-        type: String,
-        required: true
-    },
-    high: {
-        type: String,
+    highlow: {
+        type: Object,
         required: true
     },
     circulatingSupply: {
-        type: String,
-        required: true
-    },
-    circulatingSupplyPercent: {
-        type: String,
+        type: Object,
         required: true
     },
     maxSupply: {
@@ -45,15 +30,9 @@ const cryptoSchema = new Schema({
         required: true
     },
     volume: {
-        type: String,
-        required: true
-    },
-    volumePercent: {
-        type: String,
+        type: Object,
         required: true
     }
-}, { timestamps: true });
+});
 
-const Crypto = mongoose.model('Crypto', cryptoSchema);
-
-module.exports = Crypto;
+module.exports = mongoose.model('Crypto', cryptoSchema);
