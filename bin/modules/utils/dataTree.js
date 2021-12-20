@@ -19,7 +19,7 @@ dataTree.validateJson = (string) => {
 
 dataTree.saveDirTree = (filePath, dataPath) => {
     if (fs.existsSync(dataPath)) {
-        fs.unlinkSync(filePath);
+        if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
         const treeRaw = dataTree.getDirTree(dataPath);
         const tree = JSON.stringify(treeRaw, null, 2);
         fs.writeFileSync(filePath, tree);
