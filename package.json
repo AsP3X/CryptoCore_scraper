@@ -16,7 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.26.1",
-    "cheerio": "^1.0.0-rc.10",
+    "cheerio": "^1.0.0-rc.11",
     "directory-tree": "^3.2.2",
     "dotenv": "^16.0.0",
     "mongoose": "^6.3.0"
