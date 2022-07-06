@@ -19,6 +19,6 @@
     "cheerio": "^1.0.0-rc.10",
     "directory-tree": "^3.2.2",
     "dotenv": "^16.0.0",
-    "mongoose": "^6.3.0"
+    "mongoose": "^6.4.3"
   }
 }
