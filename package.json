@@ -18,7 +18,7 @@
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.12",
     "directory-tree": "^3.3.0",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.0.3",
     "mongoose": "^6.4.6"
   }
 }
