@@ -15,7 +15,7 @@
   "author": "AsP3X",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.1.3",
+    "axios": "^1.2.2",
     "cheerio": "^1.0.0-rc.12",
     "directory-tree": "^3.5.1",
     "dotenv": "^16.0.3",
